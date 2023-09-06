@@ -3,11 +3,13 @@ package com.producer.configs;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.internals.Topic;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -63,11 +65,34 @@ public class ProducerKafkaConfig {
         return new KafkaAdmin(configs);
     }
 
+
+    /**
+     * Things to create a topic
+     * @return
+     */
     @Bean
     public NewTopic topic1() {
+        // Opção 1: Definir na aplicação a quantidade de partitions e o replication factor
         final String topicName = "topic-1";
         final int partitions = 10;
         final short replicationFactor = Short.parseShort("1");
         return new NewTopic(topicName, partitions, replicationFactor);
+
+    // Opção 2: deixar que o broker defina a quantidade de partitions e o replication factor
+    //        return TopicBuilder.name("topic-1").build();
     }
+
+
+    /**
+     * To create the N topics
+     * @return
+     */
+//    @Bean
+//    public KafkaAdmin.NewTopics topics() {
+//        return new KafkaAdmin.NewTopics(
+//                TopicBuilder.name("topic-1").build(),
+//                TopicBuilder.name("topic-2").build(),
+//                TopicBuilder.name("topic-3").build()
+//        );
+//    }
 }
