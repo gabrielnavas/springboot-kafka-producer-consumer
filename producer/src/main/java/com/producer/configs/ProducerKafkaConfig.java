@@ -29,7 +29,7 @@ public class ProducerKafkaConfig {
      */
     @Bean
     public ProducerFactory<String, String> producerFactory() {
-        Map<String, Object> configs = new HashMap<>();
+        final Map<String, Object> configs = new HashMap<>();
 
         // setting the endpoint of the kafka
         configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
@@ -58,16 +58,16 @@ public class ProducerKafkaConfig {
      */
     @Bean
     public KafkaAdmin kafkaAdmin() {
-        Map<String, Object> configs = new HashMap<>();
+        final Map<String, Object> configs = new HashMap<>();
         configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
         return new KafkaAdmin(configs);
     }
 
     @Bean
     public NewTopic topic1() {
-        String topicName = "topic-1";
-        Integer partitions = 10;
-        Short replicationFactor = Short.valueOf("1");
+        final String topicName = "topic-1";
+        final int partitions = 10;
+        final short replicationFactor = Short.parseShort("1");
         return new NewTopic(topicName, partitions, replicationFactor);
     }
 }
